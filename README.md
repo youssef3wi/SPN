@@ -12,3 +12,4 @@ Syntax highlighted code block
 ![alt SPN](https://upload.wikimedia.org/wikipedia/commons/c/cd/SubstitutionPermutationNetwork2.png)
 
 ```
+![alt SPN](https://upload.wikimedia.org/wikipedia/commons/c/cd/SubstitutionPermutationNetwork2.png)

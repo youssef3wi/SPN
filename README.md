@@ -2,14 +2,17 @@
 
 SPN : is a series of linked mathematical operations used in block cipher algorithms such as AES (Rijndael), 3-Way, Kalyna, Kuznyechik, PRESENT, SAFER, SHARK, and Square.
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Algorithm
 
 ```markdown
-Syntax highlighted code block
 
-![alt SPN](https://upload.wikimedia.org/wikipedia/commons/c/cd/SubstitutionPermutationNetwork2.png)
+for(i=0;i<round-1;i++){
+  XOR
+  Substitution
+  Permutation
+}
+XOR
+Y=Substitution
 
 ```
 ![alt SPN](https://upload.wikimedia.org/wikipedia/commons/c/cd/SubstitutionPermutationNetwork2.png)

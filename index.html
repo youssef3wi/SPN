@@ -1,0 +1,247 @@
+<html>
+<header>
+    <title>SPN</title>
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+
+    <script src="node_modules/popper.js/dist/umd/popper.js"></script>
+    <script src="node_modules/bootstrap/js/dist/index.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</header>
+
+<body>
+
+    <div class="container-contact100">
+        <div class="wrap-contact100">
+            <form class="contact100-form validate-form" action="javascript:crypt();">
+                <span class="contact100-form-title">
+                    Welcome SPN
+                </span>
+
+                <div id="formTools">
+                    <div class="wrap-input100 validate-input" data-validate="Binary only">
+                        <span class="label-input100">Your Key</span>
+                        <input class="input100" id="keyInput" type="text" name="key" pattern="[01]+" required title="binary only">
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Number only">
+                        <span class="label-input100">Round</span>
+                        <input class="input100" id="roundInput" type="number" name="round" required>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Binary only">
+                        <span class="label-input100">Your Text</span>
+                        <input class="input100" id="txtInput" type="text" name="x" pattern="[01]{16}" required>
+                        <span class="focus-input100"></span>
+                    </div>
+
+                    <div class="container-contact100-form-btn">
+                        <div class="wrap-contact100-form-btn">
+                            <div class="contact100-form-bgbtn"></div>
+                            <button class="contact100-form-btn">
+                                <span>
+                                    Crypt
+                                    <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div id="dropDownSelect1"></div>
+
+    <script src="vendor/animsition/js/animsition.min.js"></script>
+    <script src="vendor/select2/select2.min.js"></script>
+    <script>
+        $(".selection-2").select2({
+            minimumResultsForSearch: 20,
+            dropdownParent: $('#dropDownSelect1')
+        });
+    </script>
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="vendor/daterangepicker/daterangepicker.js"></script>
+    <script src="vendor/countdowntime/countdowntime.js"></script>
+    <script src="js/main.js"></script>
+
+
+    <!--
+    <section>
+        <h1>Welcome SPN</h1>
+    </section>
+    <section>
+        <form action="javascript:crypt();">
+            <table>
+                <tr>
+                    <td>Key : </td>
+                    <td><input id="keyInput" type="text" name="key" pattern="[01]+" required title="binary only"></td>
+                </tr>
+                <tr>
+                    <td>Round : </td>
+                    <td><input id="roundInput" type="number" name="round" required></td>
+                </tr>
+                <tr>
+                    <td align="center">Plain Text or Bytes</td>
+                    <td>
+                        Plain Text <input type="radio" name="typeX" value="text" title="plain" checked>
+                        Bytes <input type="radio" name="typeX" value="text" title="bytes" pattern="[01]{16}"><br>
+                        <div id="xInput">
+                            <input id="txtInput" type="text" name="x" required>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Crypt"></td>
+                </tr>
+            </table>
+        </form>
+    </section>
+-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script>
+
+        var typeText = "text";
+
+        function onlyBinary(nameNode) {
+            document.getElementsByName(nameNode).addEventListener('keydown', function (ev) {
+                if (ev.keyCode != 48 && ev.keyCode != 49 && ev.keyCode != 8) {
+                    ev.preventDefault();
+                }
+            });
+        }
+        var typeRadio = document.getElementsByName("typeX");
+        for (var i = 0; i < typeRadio.length; i++) {
+            typeRadio[i].addEventListener("change", function () {
+                var oldType = document.getElementById("xInput");
+                var newType = document.createElement('input');
+                newType.name = 'x';
+                newType.id = "txtInput";
+                newType.type = this.value;
+                typeText = this.title;
+                newType.pattern = this.pattern;
+                oldType.removeChild(oldType.lastElementChild);
+                oldType.appendChild(newType);
+            });
+        }
+
+        function XOR(a, b) {
+            return (a || b) && !(a && b);
+        }
+
+        function asciiToBinary(ch) {
+            let sb = '';
+            for (let i = 0; i < val.length; i++) {
+                sb += val.charCodeAt(i).toString(2) + ' ';
+            }
+            return sb;
+        }
+
+        //onlyBinary('key');
+        function crypt() {
+            //document.body.innerHTML = "Thanks";
+
+            var hB = new Map([['0', '0000'], ['1', '0001'], ['2', '0010'], ['3', '0011'], ['4', '0100'], ['5', '0101'], ['6', '0110'], ['7', '0111'], ['8', '1000'], ['9', '1001'], ['A', '1010'], ['B', '1011'], ['C', '1100'], ['D', '1101'], ['E', '1110'], ['F', '1111']]);
+            var S = new Map([['0', 'E'], ['1', '4'], ['2', 'D'], ['3', '1'], ['4', '2'], ['5', 'F'], ['6', 'B'], ['7', '8'], ['8', '3'], ['9', 'A'], ['A', '6'], ['B', 'C'], ['C', '5'], ['D', '9'], ['E', '0'], ['F', '7']]);
+            var P = new Map([[1, 1], [2, 5], [3, 9], [4, 13], [5, 2], [6, 6], [7, 10], [8, 14], [9, 3], [10, 7], [11, 11], [12, 15], [13, 4], [14, 8], [15, 12], [16, 16]]);
+            console.log(S, P);
+
+            var key = $("#keyInput").val();
+            var round = $("#roundInput").val();
+            var text = $("#txtInput").val();
+
+            console.log(round, key, text);
+
+            var w = text;
+            for (var i = 0; i < round - 1; i++) {
+                var k = key.substr(i * round, 16);
+                var u = '';
+                //XOR
+                for (var j = 0; j < 16; j++) {
+                    u += '' + (XOR(parseInt(w[j]), parseInt(k[j])) | 0);
+                }
+                console.log("XOR: ", u, k, w);
+                //Substitution
+                // binary to hexa
+                var v = '';
+                var uH = parseInt(u, 2).toString(16).toUpperCase().padStart(4, '0');
+                //console.info("BytesHexa : ", uH);
+                /*for (var j = 0; j < u.length; j += 4) {
+                    var hex = parseInt(u.substr(j, 4), 2).toString(16).toUpperCase();
+                    v += '' + hB.get(S.get(hex));
+                }*/
+                for (var j = 0; j < uH.length; j++) {
+                    v += '' + S.get(uH[j]);
+                }
+                console.log("Sub : ", v);
+                v = parseInt(v, 16).toString(2).padStart(16, '0'); //hexaToBinary
+                //Permutation
+                var w = '';
+                for (j = 0; j < v.length; j++) {
+                    w += '' + v[P.get(j + 1) - 1];
+                }
+                console.info("Permutation : ", w);
+            }
+            k = key.substr((i + 1) * round, 16);
+            var u = '';
+            //XOR
+            for (var j = 0; j < 16; j++) {
+                u += '' + (XOR(parseInt(w[j]), parseInt(k[j])) | 0);
+            }
+            //Substitution
+            // binary to hexa
+            var v = '';
+            var uH = parseInt(u, 2).toString(16).toUpperCase().padStart(4, '0');
+            for (var j = 0; j < uH.length; j++) {
+                v += '' + S.get(uH[j]);
+            }
+            console.log("Sub : ", v);
+            //Crypt
+            w = parseInt(v, 16).toString(2).padStart(16, '0');
+            console.log("Final : ", w);
+
+            $("#formTools").html("<center><p> Cypher Key : "+w+"</p></center>")
+
+
+        }
+
+        /*
+        var P = new Map([[1, 1], [2, 5], [3, 9], [4, 13], [5, 2], [6, 6], [7, 10], [8, 14], [9, 3], [10, 7], [11, 11], [12, 15], [13, 4], [14, 8], [15, 12], [16, 16]]);
+        //       1234567890123456
+        var v = "1110111011101110";
+        var w = '';
+        var wNew = '1111111111110000';
+        for (j = 0; j < v.length; j++) {
+            //alert(v[P.get(j + 1) - 1]);
+            w += '' + v[P.get(j + 1) - 1];
+        }
+        alert(w);
+
+        var w = '1111111111110000';
+        var k = '1111111111111111';
+        var u = '';
+        for (var j = 0; j < 16; j++) {
+            alert(w[j] + ' | ' + k[j] + ' | ' + XOR(parseInt(w[j]), parseInt(k[j])));
+            u += '' + (XOR(parseInt(w[j]), parseInt(k[j])) | 0);
+        }
+        */
+    </script>
+
+</body>
+
+</html>
